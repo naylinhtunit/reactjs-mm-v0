@@ -827,8 +827,10 @@ function App() {
 export default App;
 ```
 ## 7. State Management
+React application တွင် state ကို manage လုပ်ခြင်းသည် အရေးကြီးပါသည်။ အခြေအနေများပြောင်းလဲရာမှာ ရိုးရှင်းမှုရှိပြီး လုပ်ဆောင်ချက်များကို ကောင်းမွန်စွာထိန်းချုပ်နိုင်ရန် အတွက် နည်းလမ်းအမျိုးမျိုးကို အသုံးပြုနိုင်ပါသည်။
+
 * Lifting State Up
-State ကို parent component မှာ ထိန်းချုပ်ခြင်းဖြင့် child components တွင် state အခြေအနေကို ပြန်လည် share လုပ်နိုင်သည်။
+React တွင် state ကို parent component မှာ ထိန်းချုပ်ပြီး child components များသို့ props အနေဖြင့် ပေးပို့နိုင်ပါသည်။ ဥပမာ App component တွင် state ကို ထိန်းချုပ်၍ Counter နှင့် Display components များသို့ ပေးပို့ခြင်း ဖြစ်သည်။
 
 ```
 import React, { useState } from 'react';
@@ -839,7 +841,7 @@ function App() {
   return (
     <div>
       <Counter count={count} setCount={setCount} />
-      <p>Count: {count}</p>
+      <Display count={count} />
     </div>
   );
 }
@@ -850,10 +852,14 @@ function Counter({ count, setCount }) {
   );
 }
 
+function Display({ count }) {
+  return <p>Count: {count}</p>;
+}
+
 export default App;
 ```
 * Context API
-Context API သည် React component များကြား data များကို props မတက်ဘဲ share လုပ်နိုင်စေသည်။
+Context API သည် React application တွင် props drilling ကို ရှောင်ရှားပြီး data များကို parent မှ child components များသို့ တစ်ဆင့်တည်းပေးပို့နိုင်စေပါသည်။
 
 ```
 import React, { createContext, useContext, useState } from 'react';
@@ -886,16 +892,949 @@ function Display() {
 export default App;
 ```
 * Redux
-Redux သည် state management library ဖြစ်ပြီး single source of truth အနေဖြင့် state ကို manage လုပ်ရန်အသုံးပြုသည်။
+Redux သည် state management library ဖြစ်ပြီး single source of truth အနေဖြင့် state ကို manage လုပ်ပါသည်။ application ရဲ့ state ကို predictable ဖြစ်စေပါသည်။
+
+Redux စတင်အသုံးပြုခြင်း
+Redux ကို စတင်အသုံးပြုရန် redux နှင့် react-redux ကို install လုပ်ပါ။
 
 ```
 npm install redux react-redux
 ```
   * Actions, Reducers, Store
-Actions, reducers, နှင့် store ကို အသုံးပြု၍ Redux setup လုပ်သည်။
+Actions, reducers, နှင့် store များကို အသုံးပြုပြီး Redux setup လုပ်ပါ။
+
+```
+// actions.js
+export const increment = () => ({ type: 'INCREMENT' });
+export const decrement = () => ({ type: 'DECREMENT' });
+
+// reducer.js
+const initialState = { count: 0 };
+
+const counter = (state = initialState, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+};
+
+export default counter;
+
+// store.js
+import { createStore } from 'redux';
+import counter from './reducer';
+
+const store = createStore(counter);
+
+export default store;
+```
+  * React တွင် Redux အသုံးပြုခြင်း
+Redux store ကို React application တွင် integrate လုပ်ပါ။
 
 ```
 import React from 'react';
-import { createStore } from 'redux';
-import { Provider, useDispatch, useSelector } from '
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store from './store';
+import { increment, decrement } from './actions';
+
+function Counter() {
+  const count = useSelector(state => state.count);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Counter />
+    </Provider>
+  );
+}
+
+export default App;
 ```
+  * Middleware (Redux Thunk, Redux Saga)
+Redux Thunk သည် asynchronous logic ကို Redux ထဲမှာ manage လုပ်နိုင်စေသည်။
+
+```
+npm install redux-thunk
+```
+```
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import counter from './reducer';
+
+const store = createStore(counter, applyMiddleware(thunk));
+```
+Redux Saga သည် complex asynchronous logic ကို manage လုပ်ရန် အသုံးပြုသည်။
+
+```
+npm install redux-saga
+```
+```
+import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware } from 'redux';
+import counter from './reducer';
+import rootSaga from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(counter, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);
+```
+## 8. Forms ကို Handle လုပ်ခြင်း
+* Controlled Components
+Controlled components တွင် form data ကို React component ရဲ့ state ထဲမှာ ထိန်းချုပ်သည်။
+
+```
+import React, { useState } from 'react';
+
+function App() {
+  const [name, setName] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    alert('A name was submitted: ' + name);
+    event.preventDefault();
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" value={name} onChange={handleChange} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default App;
+```
+* Uncontrolled Components
+Uncontrolled components တွင် form data ကို DOM ထဲမှာ သာ ထိန်းချုပ်သည်။
+
+```
+import React, { useRef } from 'react';
+
+function App() {
+  const inputRef = useRef(null);
+
+  const handleSubmit = (event) => {
+    alert('A name was submitted: ' + inputRef.current.value);
+    event.preventDefault();
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" ref={inputRef} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default App;
+```
+* Form Validation
+Form validation ကို React state နှင့် custom validation logic အသုံးပြု၍ ထည့်သွင်းနိုင်သည်။
+
+```
+import React, { useState } from 'react';
+
+function App() {
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (name.trim() === '') {
+      setError('Name is required');
+    } else {
+      setError('');
+      alert('A name was submitted: ' + name);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" value={name} onChange={handleChange} />
+      </label>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default App;
+```
+* Form Libraries (Formik, React Hook Form)
+Formik သည် React forms များကို manage လုပ်ရန် အထောက်အကူဖြစ်သော library တစ်ခုဖြစ်သည်။
+
+```
+npm install formik
+```
+```
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+function App() {
+  return (
+    <Formik
+      initialValues={{ name: '' }}
+      validate={values => {
+        const errors = {};
+        if (!values.name) {
+          errors.name = 'Required';
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        alert('A name was submitted: ' + values.name);
+        setSubmitting(false);
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <label>
+            Name:
+            <Field type="text" name="name" />
+          </label>
+          <ErrorMessage name="name" component="div" />
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+}
+
+export default App;
+```
+React Hook Form သည် hooks ကို အသုံးပြုပြီး form data ကို manage လုပ်ရန် အသုံးပြုနိုင်သည်။
+
+```
+npm install react-hook-form
+```
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const onSubmit = data => alert('A name was submitted: ' + data.name);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <label>
+        Name:
+        <input {...register('name', { required: true })} />
+      </label>
+      {errors.name && <p style={{ color: 'red' }}>Name is required</p>}
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default App;
+```
+## 9. API Integration
+React application တွင် API အနှံ့အသုံးပြုခြင်းသည် အရေးကြီးပြီး data fetching ကို ကောင်းမွန်စွာထိန်းချုပ်နိုင်ရန် လေ့လာထားသင့်သည်။
+
+* Fetch API
+Fetch API သည် browser built-in method တစ်ခုဖြစ်ပြီး asynchronous requests များကို ပြုလုပ်နိုင်သည်။
+
+```
+import React, { useState, useEffect } from 'react';
+
+function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://api.example.com/data')
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <ul>
+      {data.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+```
+* Axios
+Axios သည် HTTP requests များကို ပြုလုပ်ရန် အသုံးပြုသည့် popular library တစ်ခုဖြစ်သည်။ Fetch API ထက် လွယ်ကူပြီး features များစွာပါရှိသည်။
+
+```
+npm install axios
+```
+```
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get('https://api.example.com/data')
+      .then(response => {
+        setData(response.data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <ul>
+      {data.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+```
+* Handling Async Data in React
+API requests များကို handle လုပ်ရာတွင် loading state နှင့် error state များကို ထည့်သွင်းစဉ်းစားပါ။
+
+```
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get('https://api.example.com/data')
+      .then(response => {
+        setData(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  return (
+    <ul>
+      {data.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+```
+* Custom Hooks for Data Fetching
+Custom hooks ကို အသုံးပြုပြီး reusable data fetching logic များကို ဖန်တီးနိုင်သည်။
+
+```
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function useFetch(url) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get(url)
+      .then(response => {
+        setData(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+export default useFetch;
+```
+Custom hook ကို component အတွင်းမှာ အသုံးပြုခြင်း။
+
+```
+import React from 'react';
+import useFetch from './useFetch';
+
+function App() {
+  const { data, loading, error } = useFetch('https://api.example.com/data');
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  return (
+    <ul>
+      {data.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+```
+## 10. Performance Optimization
+* Memoization
+React application တွင် unnecessary re-renders မဖြစ်စေရန် useMemo နှင့် useCallback hooks များကို အသုံးပြုနိုင်သည်။
+
+* React.memo
+React.memo သည် functional component တစ်ခုကို memoize လုပ်ရန် အသုံးပြုသည်။
+
+```
+import React, { useState } from 'react';
+
+const ExpensiveComponent = React.memo(({ compute, count }) => {
+  const result = compute(count);
+  return <div>{result}</div>;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  const compute = (num) => {
+    console.log('Computing...');
+    return num * 2;
+  };
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <ExpensiveComponent compute={compute} count={count} />
+    </div>
+  );
+}
+
+export default App;
+```
+* useMemo
+useMemo ကို ရေရှည်လှုပ်ရှားမှုမရှိသည့် value များကို cache လုပ်ရန် အသုံးပြုနိုင်သည်။
+
+```
+import React, { useState, useMemo } from 'react';
+
+function App() {
+  const [count, setCount] = useState(0);
+  const expensiveComputation = (num) => {
+    console.log('Computing...');
+    return num * 2;
+  };
+
+  const result = useMemo(() => expensiveComputation(count), [count]);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <p>Result: {result}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default App;
+```
+* useCallback
+useCallback ကို memoize လုပ်ထားသော function များအတွက် အသုံးပြုနိုင်သည်။
+
+```
+import React, { useState, useCallback } from 'react';
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const increment = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+export default App;
+```
+* Lazy Loading
+React.lazy ကို dynamic import ပြုလုပ်၍ component များကို lazy loading လုပ်နိုင်သည်။
+
+```
+import React, { Suspense, lazy } from 'react';
+
+const OtherComponent = lazy(() => import('./OtherComponent'));
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+```
+* Code Splitting
+Code splitting ကို Webpack သို့မဟုတ် Babel အသုံးပြုပြီး lazy loading အတွက် အထောက်အကူဖြစ်သည်။
+
+```
+import React, { Suspense, lazy } from 'react';
+
+const OtherComponent = lazy(() => import('./OtherComponent'));
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+```
+## 11. Testing
+* Jest
+Jest သည် JavaScript testing framework တစ်ခုဖြစ်ပြီး unit tests များကို ရေးသားရန် အသုံးပြုနိုင်သည်။
+
+```
+npm install --save-dev jest
+```
+sum.js ဖိုင်ကို ဖန်တီးပါ။
+
+```
+function sum(a, b) {
+  return a + b;
+}
+module.exports = sum;
+```
+sum.test.js ဖိုင်ကို ဖန်တီးပါ။
+
+```
+const sum = require('./sum');
+
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+```
+package.json ထဲတွင် script ကို ပြင်ဆင်ပါ။
+
+```
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+* React Testing Library
+React Testing Library သည် React components များအတွက် testing tool တစ်ခုဖြစ်သည်။
+
+```
+npm install --save-dev @testing-library/react
+```
+App.js ဖိုင်ကို ဖန်တီးပါ။
+
+```
+import React from 'react';
+
+function App() {
+  return (
+    <div>
+      <h1>Hello, world!</h1>
+    </div>
+  );
+}
+
+export default App;
+```
+App.test.js ဖိုင်ကို ဖန်တီးပါ။
+
+```
+import React from 'react';
+import { render } from '@testing-library/react';
+import App from './App';
+
+test('renders hello world', () => {
+  const { getByText } = render(<App />);
+  const linkElement = getByText(/hello, world!/i);
+  expect(linkElement).toBeInTheDocument();
+});
+```
+* Cypress
+Cypress သည် end-to-end testing tool တစ်ခုဖြစ်သည်။
+
+```
+npm install cypress --save-dev
+```
+Cypress ကို စတင်အသုံးပြုရန် cypress open ကို run ပါ။
+
+cypress/integration/spec.js ဖိုင်ကို ဖန်တီးပါ။
+
+```
+describe('My First Test', () => {
+  it('Visits the Kitchen Sink', () => {
+    cy.visit('https://example.cypress.io')
+    cy.contains('type').click()
+    cy.url().should('include', '/commands/actions')
+  })
+})
+```
+## 12. Build and Deployment
+* Building for Production
+React application ကို production အတွက် build လုပ်ရန် npm run build ကို အသုံးပြုပါ။
+
+```
+npm run build
+```
+* Deployment Options
+* Vercel
+Vercel သည် React application များကို deploy လုပ်ရန် အထူးအဆင်ပြေသည်။
+
+Vercel တွင် account တစ်ခု ဖွင့်ပါ။
+GitHub repository နှင့် ချိတ်ဆက်ပါ။
+"Import Project" နှိပ်ပြီး deploy လုပ်ပါ။
+
+* Netlify
+Netlify သည် React application များကို အလွယ်တကူ deploy လုပ်နိုင်သည်။
+
+Netlify တွင် account တစ်ခု ဖွင့်ပါ။
+GitHub repository နှင့် ချိတ်ဆက်ပါ။
+"New site from Git" ကို ရွေးပြီး deploy လုပ်ပါ။
+
+* GitHub Pages
+GitHub Pages သည် static site များကို hosting လုပ်နိုင်သည်။
+
+package.json ထဲတွင် homepage ကို ထည့်ပါ။
+```
+{
+  "homepage": "http://myusername.github.io/my-app"
+}
+```
+gh-pages ကို install လုပ်ပါ။
+```
+npm install --save-dev gh-pages
+```
+package.json တွင် scripts ကို ထည့်ပါ။
+```
+{
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
+}
+```
+Deploy လုပ်ရန်
+```
+npm run deploy
+```
+## 13. Additional Learning
+* TypeScript with React
+TypeScript သည် React application များအတွက် type safety ကို ပေးသည်။
+
+```
+npx create-react-app my-app --template typescript
+```
+TypeScript နှင့် React အတွက် component များကို ရေးသားခြင်း။
+
+```
+import React from 'react';
+
+interface AppProps {
+  message: string;
+}
+
+const App: React.FC<AppProps> = ({ message }) => {
+  return <div>{message}</div>;
+}
+
+export default App;
+```
+* Server-Side Rendering (SSR) with Next.js
+Next.js သည် server-side rendering နှင့် static site generation များကို အထောက်အကူပြုသည်။
+
+```
+npx create-next-app
+```
+```
+import React from 'react';
+
+function HomePage() {
+  return <div>Welcome to Next.js!</div>;
+}
+
+export default HomePage;
+```
+* Static Site Generation (SSG) with Next.js
+Next.js ကို အသုံးပြုပြီး static site များကို generate လုပ်နိုင်သည်။
+
+```
+import React from 'react';
+import { getStaticProps } from 'next';
+
+function HomePage({ data }) {
+  return (
+    <div>
+      {data.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+    </div>
+  );
+}
+
+export async function getStaticProps() {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
+}
+
+export default HomePage;
+```
+* Progressive Web Apps (PWAs)
+Progressive Web Apps (PWAs) သည် offline support နှင့် ပိုမိုကောင်းမွန်သော performance ကို ပေးသည်။
+
+```
+npm install --save @pwa/pwa
+```
+```
+import { Pwa } from '@pwa/pwa';
+
+function App() {
+  return (
+    <Pwa>
+      <div>My PWA</div>
+    </Pwa>
+  );
+}
+
+export default App;
+```
+* GraphQL with React (Apollo Client)
+GraphQL ကို React application တွင် အသုံးပြုရန် Apollo Client ကို အသုံးပြုနိုင်သည်။
+
+```
+npm install @apollo/client graphql
+```
+```
+import React from 'react';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import MyComponent from './MyComponent';
+
+const client = new ApolloClient({
+  uri: 'https://api.example.com/graphql',
+  cache: new InMemoryCache(),
+});
+
+function App() {
+  return (
+    <ApolloProvider client={client}>
+      <MyComponent />
+    </ApolloProvider>
+  );
+}
+
+export default App;
+```
+## 14. Project Development
+* Start Building Small Projects
+သင်၏ coding skill များကို မြှင့်တင်ရန် project များကို တည်ဆောက်ပါ။
+
+* Todo App
+Todo app ကို တည်ဆောက်ခြင်း။
+
+```
+import React, { useState } from 'react';
+
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+
+  const addTodo = () => {
+    setTodos([...todos, input]);
+    setInput('');
+  };
+
+  return (
+    <div>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+      <button onClick={addTodo}>Add Todo</button>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>{todo}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+```
+* Weather App
+OpenWeatherMap API ကို အသုံးပြုပြီး weather app ကို ဖန်တီးခြင်း။
+
+```
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [city, setCity] = useState('');
+  const [weather, setWeather] = useState(null);
+
+  const getWeather = () => {
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY`)
+      .then(response => {
+        setWeather(response.data);
+      });
+  };
+
+  return (
+    <div>
+      <input value={city} onChange={(e) => setCity(e.target.value)} />
+      <button onClick={getWeather}>Get Weather</button>
+      {weather && (
+        <div>
+          <h1>{weather.name}</h1>
+          <p>{weather.weather[0].description}</p>
+          <p>{weather.main.temp}°C</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+* E-commerce Site
+E-commerce site တစ်ခုကို ဖန်တီးခြင်း။
+
+```
+import React, { useState } from 'react';
+
+function App() {
+  const [products] = useState([
+    { id: 1, name: 'Product 1', price: 10 },
+    { id: 2, name: 'Product 2', price: 20 },
+  ]);
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  return (
+    <div>
+      <h1>Products</h1>
+      <ul>
+        {products.map(product => (
+          <li key={product.id}>
+            {product.name} - ${product.price}
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
+          </li>
+        ))}
+      </ul>
+      <h1>Cart</h1>
+      <ul>
+        {cart.map((item, index) => (
+          <li key={index}>
+            {item.name} - ${item.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+```
+* Contribute to Open-Source Projects
+GitHub တွင် open-source projects များအတွက် contribute လုပ်ခြင်းဖြင့် coding skills များကို မြှင့်တင်နိုင်သည်။
+
+* Build a Portfolio
+သင်၏ projects များကို showcase ပြုလုပ်ရန် personal portfolio website တစ်ခုကို တည်ဆောက်ပါ။
+
+```
+import React from 'react';
+
+function Portfolio() {
+  return (
+    <div>
+      <h1>My Portfolio</h1>
+      <ul>
+        <li><a href="/project1">Project 1</a></li>
+        <li><a href="/project2">Project 2</a></li>
+        <li><a href="/project3">Project 3</a></li>
+      </ul>
+    </div>
+  );
+}
+
+export default Portfolio;
+```
+ဒီလိုဖြင့် React ကို အခြေခံကနေစပြီး အဆင့်မြင့်အထိ ကျွမ်းကျင်အောင် လေ့လာနိုင်ပါသည်။
