@@ -109,6 +109,7 @@ console.log(nameConst); // Jake
 // nameConst = 'Jack'; // This will throw an error
 ```
 * Functions
+
 JavaScript တွင် function များကို လုပ်ဆောင်ချက်တစ်ခုစီအတွက် သုံးသည်။ React မှာ components များကို function အဖြစ်ရေးနိုင်သည်။
 
 ```
@@ -119,6 +120,7 @@ function greet(name) {
 console.log(greet('John')); // Hello, John!
 ```
 * Arrow Functions
+
 Arrow functions သည် function expressions ကို ရေးရန် အဆင်ပြေစေသည်။ React တွင် event handler များကို သတ်မှတ်ရာတွင် အများဆုံးအသုံးပြုသည်။
 
 ```
@@ -127,6 +129,7 @@ const greet = (name) => `Hello, ${name}!`;
 console.log(greet('Jane')); // Hello, Jane!
 ```
 * Objects and Arrays
+
 JavaScript မှာ objects နှင့် arrays များကို data structures အဖြစ်အသုံးပြုသည်။ React မှာ props နှင့် state များကို object နှင့် array အဖြစ် handle ပြုလုပ်သည်။
 
 ```
@@ -137,6 +140,7 @@ console.log(person.name); // John
 console.log(numbers[0]); // 1
 ```
 * ES6+ Syntax (Destructuring, Spread Operator, etc.)
+
 ES6+ မှာ destructuring, spread operator စသည်တို့ပါဝင်သည်။ React မှာ data ကို pass through props မှာ အဆင်ပြေစေသည်။
 
 ```
@@ -147,6 +151,7 @@ const moreNumbers = [...numbers, 6, 7, 8];
 console.log(moreNumbers); // [1, 2, 3, 4, 5, 6, 7, 8]
 ```
 * Promises and Async/Await
+
 Promises နှင့် async/await ကို asynchronous operations များအတွက် အသုံးပြုသည်။ React မှာ API call များကို handle ပြုလုပ်ရာတွင် အသုံးဝင်သည်။
 
 ```
@@ -166,9 +171,11 @@ fetchData();
 React project တစ်ခုကို စတင်ရန်အတွက် environment ကိုပြင်ဆင်ရမည်။
 
 * Node.js and npm Installation
+
 Node.js ကို Node.js website မှာ download ပြုလုပ်ပြီး install ပါ။ Node.js နှင့်အတူ npm (Node Package Manager) လည်း ပါဝင်လာပါသည်။ npm သည် React libraries များကို install ပြုလုပ်ရန် အသုံးပြုသည်။
 
 * Create-React-App (CRA)
+
 Create-React-App ကို အသုံးပြု၍ React Project အသစ်တစ်ခုကို လွယ်ကူစွာ ဖန်တီးနိုင်ပါသည်။ CRA သည် React application များကို အလွယ်တကူ စတင်နိုင်ရန် အထောက်အကူဖြစ်စေသည်။
 
 ```
@@ -178,9 +185,11 @@ npm start
 ```
 ## 3. React Basics
 * Introduction to React
+
 React သည် Facebook မှ ဖန်တီးခဲ့ပြီး, User Interfaces (UIs) များကို ဖန်တီးရန်အတွက် JavaScript library တစ်ခုဖြစ်သည်။ React ၏ အဓိကအယူအဆမှာ component-based architecture ဖြစ်ပြီး, reusable components များကို အသုံးပြုသည်။
 
 * JSX (JavaScript XML)
+
 JSX သည် React ၏ UI components များကို ဖန်တီးရာတွင်အသုံးပြုသော syntax ဖြစ်ပြီး, HTML နှင့် ဆင်တူသော syntax ဖြစ်သည်။ JSX သည် JavaScript ကို extend ပြုလုပ်ပြီး React DOM မှာ rendering ပြုလုပ်ရန် အဆင်ပြေစေသည်။
 
 ```
@@ -195,9 +204,11 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 * Components
+
 React ၏ အခြေခံအဆင့်မှာ Components ဖြစ်သည်။ Component တစ်ခုသည် UI ၏ သီးခြားအစိတ်အပိုင်းတစ်ခုကို ကိုယ်စားပြုသည်။
 
 * Function Components
+
 Function Components သည် JavaScript functions ဖြစ်ပြီး, props ကို parameter အဖြစ်လက်ခံပါသည်။ Function Components ကို ရေးရန် လွယ်ကူပြီး ရိုးရှင်းသည်။
 
 ```
@@ -213,6 +224,7 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 * Class Components
+
 Class Components သည် ES6 class ကို အသုံးပြု၍ ဖန်တီးသည်။ Class Components သည် state နှင့် lifecycle methods များကို ကိုင်တွယ်ရာတွင် အထူးအသုံးပြုသည်။
 
 ```
@@ -230,6 +242,7 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 * Props (Properties)
+
 Props သည် React Components များအကြား data ပေးပို့ရန် အသုံးပြုသည်။ Parent component မှ Child component သို့ data ပေးပို့ရာတွင် props ကို အသုံးပြုသည်။
 
 ```
@@ -245,6 +258,7 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 * State
+
 State သည် Component ၏ internal state ကို ကိုယ်စားပြုသည်။ State ကို Class Component နှင့် Function Component (Hooks) များတွင် အသုံးပြုနိုင်သည်။
 
 Class Component မှာ State ကို အသုံးပြုပုံ
@@ -282,6 +296,7 @@ class Clock extends React.Component {
 ReactDOM.render(<Clock />, document.getElementById('root'));
 ```
 * Function Component မှာ State ကို အသုံးပြုပုံ (Hooks)
+
 Function Components တွင် useState Hook ကို အသုံးပြုပြီး state ကို သတ်မှတ်နိုင်သည်။ useEffect Hook ကို အသုံးပြုပြီး lifecycle methods များကို handle ပြုလုပ်သည်။
 
 ```
@@ -307,6 +322,7 @@ function Clock() {
 ReactDOM.render(<Clock />, document.getElementById('root'));
 ```
 * Event Handling
+
 React တွင် event handler များကို သတ်မှတ်ရန် HTML event attributes ကို အသုံးပြုနိုင်သလို JavaScript functions များကိုလည်း အသုံးပြုနိုင်သည်။ Event handling သည် user interaction များကို handle ပြုလုပ်ရန် လိုအပ်သည်။
 
 * Class Component တွင် Event Handling
@@ -345,6 +361,7 @@ ReactDOM.render(<Button />, document.getElementById('root'));
 ```
 ## 4. Advanced Concepts
 * Component Lifecycle Methods (Class Components)
+
 Class Components တွင် lifecycle methods များသည် component ၏ creation, updates, နှင့် destruction အဆင့်များကို handle လုပ်ရန် အသုံးပြုသည်။ အဓိက methods များမှာ-
 
   * componentDidMount(): Component သည် DOM ထဲသို့ render ပြုလုပ်ပြီးနောက် run ပါသည်။ API calls များ၊ timers များ စတင်ရန် အသုံးပြုသည်။
@@ -370,9 +387,11 @@ class MyComponent extends React.Component {
 }
 ```
 * Hooks (Function Components)
+
 Hooks သည် Function Components တွင် state နှင့် lifecycle features များကို အသုံးပြုရန် React v16.8 တွင် မိတ်ဆက်ထားသည်။
 
 * useState
+
 useState သည် Function Components တွင် state ကို သတ်မှတ်ရန် အသုံးပြုသည်။
 
 ```
@@ -390,6 +409,7 @@ function Counter() {
 }
 ```
 * useEffect
+
 useEffect သည် component lifecycle methods များကို Function Components တွင် handle လုပ်ရန် အသုံးပြုသည်။ (e.g., data fetching, subscriptions)
 
 ```
@@ -410,6 +430,7 @@ function Timer() {
 }
 ```
 * Custom Hooks
+
 Custom Hooks သည် reusable logic များကို Function Components တွင် အသုံးပြုနိုင်စေရန် ဖန်တီးသည်။
 
 ```
@@ -433,6 +454,7 @@ function App() {
 }
 ```
 * Context API
+
 Context API သည် application-wide data များကို component tree တစ်လျှောက်လုံး shared လုပ်ရန် အသုံးပြုသည်။
 
 ```
@@ -459,6 +481,7 @@ function App() {
 }
 ```
 * Refs
+
 Refs သည် DOM elements သို့ တိုက်ရိုက် access ရယူရန်အသုံးပြုသည်။
 
 ```
@@ -480,6 +503,7 @@ function TextInputWithFocusButton() {
 }
 ```
 * Error Boundaries
+
 Error Boundaries သည် JavaScript errors များကို component tree တစ်ခုလုံး၌ catch လုပ်ပြီး, user interface ကို fail-safe state တွင် ပေါ်လာစေရန် အသုံးပြုသည်။ Class Components တွင်သာ အသုံးပြုနိုင်သည်။
 
 ```
@@ -523,6 +547,7 @@ function App() {
 React တွင် component များကို ဆွဲဆောင်မှုရှိသော design များနှင့် စတင်ဖန်တီးနိုင်ရန်အတွက် နည်းလမ်းအမျိုးမျိုးကို အသုံးပြုနိုင်သည်။
 
 * CSS Stylesheets
+
 CSS stylesheets ကို အသုံးပြုပြီး component များကို style ပေးနိုင်သည်။
 
 ```
@@ -548,6 +573,7 @@ App.css ဖိုင်တွင်
 }
 ```
 * Inline Styles
+
 Inline styles ကို JavaScript object အနေနဲ့ ထည့်သွင်းနိုင်သည်။
 
 ```
@@ -569,6 +595,7 @@ function App() {
 export default App;
 ```
 * CSS Modules
+
 CSS Modules သည် class name အများကြီးရှိသော large-scale applications တွင် name conflicts မဖြစ်စေရန် ကူညီပေးသည်။
 
 ```
@@ -594,6 +621,7 @@ App.module.css ဖိုင်တွင်
 }
 ```
 * Styled Components
+
 Styled Components သည် CSS-in-JS library တစ်ခုဖြစ်ပြီး JavaScript ထဲမှာ တိုက်ရိုက် CSS ကိုရေးသားနိုင်သည်။
 
 ```
@@ -619,6 +647,7 @@ function App() {
 export default App;
 ```
 * Sass with React
+
 Sass ကို React project တွင်အသုံးပြုနိုင်သည်။
 
 ```
@@ -654,6 +683,7 @@ export default App;
 React Router သည် React application တွင် routing နှင့် navigation ကို manage လုပ်ရန် အထောက်အကူဖြစ်သည်။
 
 * React Router Basics
+
 React Router ကိုစတင်အသုံးပြုရန် react-router-dom ကို install လုပ်ပါ။
 
 ```
@@ -679,6 +709,7 @@ function App() {
 export default App;
 ```
 * Route, Link, NavLink
+
 Route, Link နှင့် NavLink များကို အသုံးပြု၍ navigation လုပ်နိုင်သည်။
 
 ```
@@ -711,6 +742,7 @@ function App() {
 export default App;
 ```
 * Dynamic Routing
+
 Dynamic routing ကို URL parameter များဖြင့် route လုပ်နိုင်သည်။
 
 ```
@@ -735,6 +767,7 @@ function App() {
 export default App;
 ```
 * Nested Routes
+
 Nested routes သည် parent route အောက်တွင် child routes များရှိစေသည်။
 
 ```
@@ -800,6 +833,7 @@ function App() {
 export default App;
 ```
 * Redirects and Navigation
+
 React Router တွင် redirects နှင့် navigation ကို handle လုပ်နိုင်သည်။
 
 ```
@@ -830,6 +864,7 @@ export default App;
 React application တွင် state ကို manage လုပ်ခြင်းသည် အရေးကြီးပါသည်။ အခြေအနေများပြောင်းလဲရာမှာ ရိုးရှင်းမှုရှိပြီး လုပ်ဆောင်ချက်များကို ကောင်းမွန်စွာထိန်းချုပ်နိုင်ရန် အတွက် နည်းလမ်းအမျိုးမျိုးကို အသုံးပြုနိုင်ပါသည်။
 
 * Lifting State Up
+
 React တွင် state ကို parent component မှာ ထိန်းချုပ်ပြီး child components များသို့ props အနေဖြင့် ပေးပို့နိုင်ပါသည်။ ဥပမာ App component တွင် state ကို ထိန်းချုပ်၍ Counter နှင့် Display components များသို့ ပေးပို့ခြင်း ဖြစ်သည်။
 
 ```
@@ -859,6 +894,7 @@ function Display({ count }) {
 export default App;
 ```
 * Context API
+
 Context API သည် React application တွင် props drilling ကို ရှောင်ရှားပြီး data များကို parent မှ child components များသို့ တစ်ဆင့်တည်းပေးပို့နိုင်စေပါသည်။
 
 ```
@@ -892,6 +928,7 @@ function Display() {
 export default App;
 ```
 * Redux
+
 Redux သည် state management library ဖြစ်ပြီး single source of truth အနေဖြင့် state ကို manage လုပ်ပါသည်။ application ရဲ့ state ကို predictable ဖြစ်စေပါသည်။
 
 Redux စတင်အသုံးပြုခြင်း
@@ -901,6 +938,7 @@ Redux ကို စတင်အသုံးပြုရန် redux နှင့
 npm install redux react-redux
 ```
   * Actions, Reducers, Store
+
 Actions, reducers, နှင့် store များကို အသုံးပြုပြီး Redux setup လုပ်ပါ။
 
 ```
@@ -933,6 +971,7 @@ const store = createStore(counter);
 export default store;
 ```
   * React တွင် Redux အသုံးပြုခြင်း
+
 Redux store ကို React application တွင် integrate လုပ်ပါ။
 
 ```
@@ -965,6 +1004,7 @@ function App() {
 export default App;
 ```
   * Middleware (Redux Thunk, Redux Saga)
+
 Redux Thunk သည် asynchronous logic ကို Redux ထဲမှာ manage လုပ်နိုင်စေသည်။
 
 ```
@@ -995,6 +1035,7 @@ sagaMiddleware.run(rootSaga);
 ```
 ## 8. Forms ကို Handle လုပ်ခြင်း
 * Controlled Components
+
 Controlled components တွင် form data ကို React component ရဲ့ state ထဲမှာ ထိန်းချုပ်သည်။
 
 ```
@@ -1026,6 +1067,7 @@ function App() {
 export default App;
 ```
 * Uncontrolled Components
+
 Uncontrolled components တွင် form data ကို DOM ထဲမှာ သာ ထိန်းချုပ်သည်။
 
 ```
@@ -1053,6 +1095,7 @@ function App() {
 export default App;
 ```
 * Form Validation
+
 Form validation ကို React state နှင့် custom validation logic အသုံးပြု၍ ထည့်သွင်းနိုင်သည်။
 
 ```
@@ -1091,6 +1134,7 @@ function App() {
 export default App;
 ```
 * Form Libraries (Formik, React Hook Form)
+
 Formik သည် React forms များကို manage လုပ်ရန် အထောက်အကူဖြစ်သော library တစ်ခုဖြစ်သည်။
 
 ```
@@ -1165,6 +1209,7 @@ export default App;
 React application တွင် API အနှံ့အသုံးပြုခြင်းသည် အရေးကြီးပြီး data fetching ကို ကောင်းမွန်စွာထိန်းချုပ်နိုင်ရန် လေ့လာထားသင့်သည်။
 
 * Fetch API
+
 Fetch API သည် browser built-in method တစ်ခုဖြစ်ပြီး asynchronous requests များကို ပြုလုပ်နိုင်သည်။
 
 ```
@@ -1199,6 +1244,7 @@ function App() {
 export default App;
 ```
 * Axios
+
 Axios သည် HTTP requests များကို ပြုလုပ်ရန် အသုံးပြုသည့် popular library တစ်ခုဖြစ်သည်။ Fetch API ထက် လွယ်ကူပြီး features များစွာပါရှိသည်။
 
 ```
@@ -1236,6 +1282,7 @@ function App() {
 export default App;
 ```
 * Handling Async Data in React
+
 API requests များကို handle လုပ်ရာတွင် loading state နှင့် error state များကို ထည့်သွင်းစဉ်းစားပါ။
 
 ```
@@ -1279,6 +1326,7 @@ function App() {
 export default App;
 ```
 * Custom Hooks for Data Fetching
+
 Custom hooks ကို အသုံးပြုပြီး reusable data fetching logic များကို ဖန်တီးနိုင်သည်။
 
 ```
@@ -1337,9 +1385,11 @@ export default App;
 ```
 ## 10. Performance Optimization
 * Memoization
+
 React application တွင် unnecessary re-renders မဖြစ်စေရန် useMemo နှင့် useCallback hooks များကို အသုံးပြုနိုင်သည်။
 
 * React.memo
+
 React.memo သည် functional component တစ်ခုကို memoize လုပ်ရန် အသုံးပြုသည်။
 
 ```
@@ -1368,6 +1418,7 @@ function App() {
 export default App;
 ```
 * useMemo
+
 useMemo ကို ရေရှည်လှုပ်ရှားမှုမရှိသည့် value များကို cache လုပ်ရန် အသုံးပြုနိုင်သည်။
 
 ```
@@ -1394,6 +1445,7 @@ function App() {
 export default App;
 ```
 * useCallback
+
 useCallback ကို memoize လုပ်ထားသော function များအတွက် အသုံးပြုနိုင်သည်။
 
 ```
@@ -1417,6 +1469,7 @@ function App() {
 export default App;
 ```
 * Lazy Loading
+
 React.lazy ကို dynamic import ပြုလုပ်၍ component များကို lazy loading လုပ်နိုင်သည်။
 
 ```
@@ -1437,6 +1490,7 @@ function App() {
 export default App;
 ```
 * Code Splitting
+
 Code splitting ကို Webpack သို့မဟုတ် Babel အသုံးပြုပြီး lazy loading အတွက် အထောက်အကူဖြစ်သည်။
 
 ```
@@ -1458,6 +1512,7 @@ export default App;
 ```
 ## 11. Testing
 * Jest
+
 Jest သည် JavaScript testing framework တစ်ခုဖြစ်ပြီး unit tests များကို ရေးသားရန် အသုံးပြုနိုင်သည်။
 
 ```
@@ -1490,6 +1545,7 @@ package.json ထဲတွင် script ကို ပြင်ဆင်ပါ။
 }
 ```
 * React Testing Library
+
 React Testing Library သည် React components များအတွက် testing tool တစ်ခုဖြစ်သည်။
 
 ```
@@ -1524,6 +1580,7 @@ test('renders hello world', () => {
 });
 ```
 * Cypress
+
 Cypress သည် end-to-end testing tool တစ်ခုဖြစ်သည်။
 
 ```
@@ -1544,6 +1601,7 @@ describe('My First Test', () => {
 ```
 ## 12. Build and Deployment
 * Building for Production
+
 React application ကို production အတွက် build လုပ်ရန် npm run build ကို အသုံးပြုပါ။
 
 ```
@@ -1551,6 +1609,7 @@ npm run build
 ```
 * Deployment Options
 * Vercel
+
 Vercel သည် React application များကို deploy လုပ်ရန် အထူးအဆင်ပြေသည်။
 
 Vercel တွင် account တစ်ခု ဖွင့်ပါ။
@@ -1558,6 +1617,7 @@ GitHub repository နှင့် ချိတ်ဆက်ပါ။
 "Import Project" နှိပ်ပြီး deploy လုပ်ပါ။
 
 * Netlify
+
 Netlify သည် React application များကို အလွယ်တကူ deploy လုပ်နိုင်သည်။
 
 Netlify တွင် account တစ်ခု ဖွင့်ပါ။
@@ -1565,6 +1625,7 @@ GitHub repository နှင့် ချိတ်ဆက်ပါ။
 "New site from Git" ကို ရွေးပြီး deploy လုပ်ပါ။
 
 * GitHub Pages
+
 GitHub Pages သည် static site များကို hosting လုပ်နိုင်သည်။
 
 package.json ထဲတွင် homepage ကို ထည့်ပါ။
@@ -1592,6 +1653,7 @@ npm run deploy
 ```
 ## 13. Additional Learning
 * TypeScript with React
+
 TypeScript သည် React application များအတွက် type safety ကို ပေးသည်။
 
 ```
@@ -1613,6 +1675,7 @@ const App: React.FC<AppProps> = ({ message }) => {
 export default App;
 ```
 * Server-Side Rendering (SSR) with Next.js
+
 Next.js သည် server-side rendering နှင့် static site generation များကို အထောက်အကူပြုသည်။
 
 ```
@@ -1628,6 +1691,7 @@ function HomePage() {
 export default HomePage;
 ```
 * Static Site Generation (SSG) with Next.js
+
 Next.js ကို အသုံးပြုပြီး static site များကို generate လုပ်နိုင်သည်။
 
 ```
@@ -1658,6 +1722,7 @@ export async function getStaticProps() {
 export default HomePage;
 ```
 * Progressive Web Apps (PWAs)
+
 Progressive Web Apps (PWAs) သည် offline support နှင့် ပိုမိုကောင်းမွန်သော performance ကို ပေးသည်။
 
 ```
@@ -1677,6 +1742,7 @@ function App() {
 export default App;
 ```
 * GraphQL with React (Apollo Client)
+
 GraphQL ကို React application တွင် အသုံးပြုရန် Apollo Client ကို အသုံးပြုနိုင်သည်။
 
 ```
@@ -1704,9 +1770,11 @@ export default App;
 ```
 ## 14. Project Development
 * Start Building Small Projects
+
 သင်၏ coding skill များကို မြှင့်တင်ရန် project များကို တည်ဆောက်ပါ။
 
 * Todo App
+
 Todo app ကို တည်ဆောက်ခြင်း။
 
 ```
@@ -1737,6 +1805,7 @@ function App() {
 export default App;
 ```
 * Weather App
+
 OpenWeatherMap API ကို အသုံးပြုပြီး weather app ကို ဖန်တီးခြင်း။
 
 ```
@@ -1772,6 +1841,7 @@ function App() {
 export default App;
 ```
 * E-commerce Site
+
 E-commerce site တစ်ခုကို ဖန်တီးခြင်း။
 
 ```
@@ -1814,9 +1884,11 @@ function App() {
 export default App;
 ```
 * Contribute to Open-Source Projects
+
 GitHub တွင် open-source projects များအတွက် contribute လုပ်ခြင်းဖြင့် coding skills များကို မြှင့်တင်နိုင်သည်။
 
 * Build a Portfolio
+
 သင်၏ projects များကို showcase ပြုလုပ်ရန် personal portfolio website တစ်ခုကို တည်ဆောက်ပါ။
 
 ```
